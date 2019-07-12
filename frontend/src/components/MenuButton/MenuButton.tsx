@@ -1,5 +1,4 @@
 import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -9,17 +8,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    fixButtonPosition: {
-      marginTop: -8
-    }
-  })
-);
-
 type CustomizedInputBaseProps = {
   message: string;
-  onChange(value: number): void;
+  onChange(value: 2 | 10 | 30): void;
   data: DataT[];
 };
 
@@ -29,8 +20,6 @@ type DataT = {
 };
 
 const CustomizedInputBase: React.FC<CustomizedInputBaseProps> = props => {
-  const classes = useStyles();
-
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
@@ -58,7 +47,6 @@ const CustomizedInputBase: React.FC<CustomizedInputBaseProps> = props => {
   return (
     <div>
       <Button
-        className={classes.fixButtonPosition}
         ref={anchorRef}
         aria-controls="menu-list-grow"
         aria-haspopup="true"
