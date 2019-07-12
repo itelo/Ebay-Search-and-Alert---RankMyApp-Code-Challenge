@@ -14,6 +14,7 @@ import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { Button } from "@material-ui/core";
+import MenuButton from "./MenuButton/MenuButton";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -71,30 +72,7 @@ type IntervalValues = 2 | 10 | 30;
 export default function CustomizedInputBase() {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLButtonElement>(null);
   const [interval, setInterval] = React.useState(10 as IntervalValues);
-
-  function handleToggle() {
-    setOpen(prevOpen => !prevOpen);
-  }
-
-  const handleClose = (intervalDesired?: IntervalValues) => (
-    event: React.MouseEvent<EventTarget>
-  ) => {
-    if (intervalDesired) {
-      setInterval(intervalDesired);
-    }
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      // @ts-ignore
-      return;
-    }
-
-    setOpen(false);
-  };
 
   return (
     <div className={classes.row}>
@@ -112,50 +90,24 @@ export default function CustomizedInputBase() {
           />
           <Divider className={classes.divider} />
           <div className={classes.root2}>
-            <div>
-              <Button
-                className={classes.fixButtonPosition}
-                ref={anchorRef}
-                aria-controls="menu-list-grow"
-                aria-haspopup="true"
-                onClick={handleToggle}
-              >
-                {messages[interval]}
-              </Button>
-              <Popper
-                open={open}
-                anchorEl={anchorRef.current}
-                keepMounted={false}
-                transition
-                disablePortal
-              >
-                {({ TransitionProps, placement }) => (
-                  <Grow
-                    {...TransitionProps}
-                    style={{
-                      transformOrigin:
-                        placement === "bottom" ? "center top" : "center bottom"
-                    }}
-                  >
-                    <Paper id="menu-list-grow">
-                      <ClickAwayListener onClickAway={handleClose()}>
-                        <MenuList>
-                          <MenuItem onClick={handleClose(2)}>
-                            2 minutos
-                          </MenuItem>
-                          <MenuItem onClick={handleClose(10)}>
-                            10 minutos
-                          </MenuItem>
-                          <MenuItem onClick={handleClose(30)}>
-                            30 minutos
-                          </MenuItem>
-                        </MenuList>
-                      </ClickAwayListener>
-                    </Paper>
-                  </Grow>
-                )}
-              </Popper>
-            </div>
+            <MenuButton
+              onChange={setInterval}
+              message={messages[interval]}
+              data={[
+                {
+                  label: "2 minutos",
+                  value: 2
+                },
+                {
+                  label: "10 minutos",
+                  value: 10
+                },
+                {
+                  label: "30 minutos",
+                  value: 30
+                }
+              ]}
+            />
           </div>
         </div>
       </Paper>

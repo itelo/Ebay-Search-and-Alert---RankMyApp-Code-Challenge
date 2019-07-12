@@ -18,23 +18,24 @@ const useStyles = makeStyles((theme: Theme) =>
 type BoardItemProps = {
   title: string;
   price: string;
-  imageURL: string;
+  imageURL?: string;
+  onClick(): void;
 };
 
 const BoardItem: React.FC<BoardItemProps> = props => {
   const classes = useStyles();
 
   return (
-    <Grid
-      container
-      direction="row"
-      onClick={() => {
-        alert("pressed item");
-      }}
-    >
-      <Grid item>
-        <img src={props.imageURL} className={classes.image} />
-      </Grid>
+    <Grid container direction="row" onClick={props.onClick}>
+      {props.imageURL && (
+        <Grid item>
+          <img
+            alt="IMAGE_OF_PRODUCT"
+            src={props.imageURL}
+            className={classes.image}
+          />
+        </Grid>
+      )}
       <Grid item xs>
         <Grid
           container

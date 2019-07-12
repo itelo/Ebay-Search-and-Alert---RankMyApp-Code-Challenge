@@ -7,6 +7,7 @@ import { Grid, Divider, Tooltip } from "@material-ui/core";
 // Icons
 import RefreshIcon from "@material-ui/icons/RefreshOutlined";
 import CloseIcon from "@material-ui/icons/CloseOutlined";
+import BoardItem from "../BoardItem";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,11 +19,40 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       padding: theme.spacing(1, 1)
+    },
+    itemsContainer: {
+      padding: theme.spacing(0, 1)
+    },
+    itemContainer: {
+      padding: theme.spacing(1, 0)
+    },
+
+    image: {
+      width: 96,
+      height: 96,
+      objectFit: "cover",
+      borderRadius: 4,
+      margin: theme.spacing(0, 1, 0, 0)
     }
   })
 );
 
-export default function PaperSheet() {
+type BoardProps = {
+  email: string;
+  sp: string;
+  time: string;
+  onRequestRefresh?(): void;
+  onRequestClose?(): void;
+  onClickBoardItem?: (_id: string) => () => void;
+  data: {
+    _id: string;
+    imageURL?: string;
+    title: string;
+    price: string;
+  }[];
+};
+
+const Board: React.FC<BoardProps> = props => {
   const classes = useStyles();
 
   return (
@@ -32,14 +62,14 @@ export default function PaperSheet() {
           <Grid container direction="row" justify="space-between">
             <Grid item>
               <Typography variant="caption" component="h3">
-                itelofilho@gmail.com
+                {props.email}
               </Typography>
             </Grid>
             <Grid item>
               <Grid container direction="row">
                 <CloseIcon
                   className={classes.iconClose}
-                  onClick={() => alert("close")}
+                  onClick={props.onRequestClose}
                 />
               </Grid>
             </Grid>
@@ -52,25 +82,45 @@ export default function PaperSheet() {
             alignItems="center"
           >
             <Grid item>
-              <Tooltip title="Search Phrase: Macaquinhos" placement="top">
+              <Tooltip title={`Search Phrase: ${props.sp}`} placement="top">
                 <Typography variant="body2" component="p">
-                  SP: Macaquinhos
+                  SP: {props.sp}
                 </Typography>
               </Tooltip>
             </Grid>
             <Grid item>
               <Grid container direction="row" alignItems="center">
                 <Typography variant="body2" component="p">
-                  2 min
+                  {props.time}
                 </Typography>
-                <RefreshIcon onClick={() => alert("refresh")} />
+                <RefreshIcon onClick={props.onRequestRefresh} />
               </Grid>
             </Grid>
           </Grid>
         </div>
         <Divider />
-        <div style={{ height: 300 }} />
+        <div className={classes.itemsContainer}>
+          {props.data.map((item, index) => (
+            <React.Fragment key={item._id}>
+              <div className={classes.itemContainer}>
+                <BoardItem
+                  onClick={() => {
+                    if (props.onClickBoardItem) {
+                      props.onClickBoardItem(item._id);
+                    }
+                  }}
+                  imageURL={item.imageURL}
+                  title={item.title}
+                  price={item.price}
+                />
+              </div>
+              {props.data.length !== index + 1 && <Divider />}
+            </React.Fragment>
+          ))}
+        </div>
       </Paper>
     </div>
   );
-}
+};
+
+export default Board;
