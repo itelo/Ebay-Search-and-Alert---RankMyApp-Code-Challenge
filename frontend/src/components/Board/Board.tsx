@@ -12,7 +12,7 @@ import BoardItem from "../BoardItem";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: (256 * 5) / 3
+      width: "calc((1280px) / 3)"
     },
     iconClose: {
       fontSize: theme.typography.body2.fontSize
