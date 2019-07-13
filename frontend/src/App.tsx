@@ -176,28 +176,30 @@ const boards = [
 const App: React.FC = () => {
   return (
     <div className="App">
-      <div style={{ padding: 24, paddingBottom: 0 }}>
-        <Input />
-      </div>
-      <div style={{ maxWidth: 1280 + 24 + 48 + 24 }}>
-        <Grid
-          container
-          direction="row"
-          spacing={2}
-          style={{ flexGrow: 1, padding: 24 }}
-        >
-          {boards.map(board => (
-            <Grid item>
-              <Board
-                email="itelofilho@gmail.com"
-                sp="goku"
-                time="3 min"
-                data={board}
-              />
-            </Grid>
-          ))}
+      <Grid container justify="center" alignItems="center" direction="column">
+        <Grid item style={{ padding: 16, paddingBottom: 0, width: 1280 }}>
+          <Input />
         </Grid>
-      </div>
+        <Grid item style={{ maxWidth: 1280 }}>
+          <Grid
+            container
+            direction="row"
+            spacing={2}
+            style={{ flexGrow: 1, padding: 16 }}
+          >
+            {boards.map(board => (
+              <Grid item>
+                <Board
+                  email="itelofilho@gmail.com"
+                  sp="goku"
+                  time="3 min"
+                  data={board}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 };

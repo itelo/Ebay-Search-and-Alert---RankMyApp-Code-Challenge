@@ -9,10 +9,15 @@ import RefreshIcon from "@material-ui/icons/RefreshOutlined";
 import CloseIcon from "@material-ui/icons/CloseOutlined";
 import BoardItem from "../BoardItem";
 
+const widthLg = (1280 - 24 - 48 - 8) / 3;
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "calc((1280px) / 3)"
+      [theme.breakpoints.up("md")]: {
+        width: widthLg
+      },
+      width: "100%"
     },
     iconClose: {
       fontSize: theme.typography.body2.fontSize
