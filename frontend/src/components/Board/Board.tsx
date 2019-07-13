@@ -10,6 +10,7 @@ import CloseIcon from "@material-ui/icons/CloseOutlined";
 import BoardItem from "../BoardItem";
 
 const widthLg = (1280 - 24 - 48 - 8) / 3;
+const widthMd = (960 - 24 - 24) / 2;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,7 +18,13 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up("md")]: {
         width: widthLg
       },
-      width: "100%"
+      [theme.breakpoints.between("sm", "md")]: {
+        width: widthMd
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "100%"
+      }
+      // width: "100%"
     },
     iconClose: {
       fontSize: theme.typography.body2.fontSize
