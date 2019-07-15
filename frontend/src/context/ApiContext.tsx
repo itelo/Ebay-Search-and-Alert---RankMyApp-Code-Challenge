@@ -119,7 +119,7 @@ export const ApiProvider: React.FC = props => {
     }
 
     setArrIds([]);
-  }, [arrIds]);
+  }, [arrIds, data]);
 
   React.useEffect(() => {
     init();
