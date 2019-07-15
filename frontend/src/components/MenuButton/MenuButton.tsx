@@ -10,13 +10,13 @@ import Button from "@material-ui/core/Button";
 
 type CustomizedInputBaseProps = {
   message: string;
-  onChange(value: 2 | 10 | 30): void;
+  onChange(value: "2" | "10" | "30"): void;
   data: DataT[];
 };
 
 type DataT = {
   label: string;
-  value: 2 | 10 | 30;
+  value: "2" | "10" | "30";
 };
 
 const CustomizedInputBase: React.FC<CustomizedInputBaseProps> = props => {
@@ -27,7 +27,7 @@ const CustomizedInputBase: React.FC<CustomizedInputBaseProps> = props => {
     setOpen(prevOpen => !prevOpen);
   }
 
-  function handleClose(intervalDesired?: 2 | 10 | 30) {
+  function handleClose(intervalDesired?: "2" | "10" | "30") {
     return (event: React.MouseEvent<EventTarget>) => {
       if (intervalDesired) {
         props.onChange(intervalDesired);
