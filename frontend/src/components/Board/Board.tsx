@@ -56,8 +56,9 @@ type BoardProps = {
   time: string;
   onRequestRefresh?: (_id: string) => void;
   onRequestClose?: (_id: string) => void;
-  onClickBoardItem?: (_id: string) => void;
+  onClickBoardItem?: (url: string) => void;
   data: {
+    itemURL: string;
     _id: string;
     imageURL?: string;
     title: string;
@@ -131,7 +132,7 @@ const Board: React.FC<BoardProps> = props => {
                 <BoardItem
                   onClick={() => {
                     if (props.onClickBoardItem) {
-                      props.onClickBoardItem(item._id);
+                      props.onClickBoardItem(item.itemURL);
                     }
                   }}
                   imageURL={item.imageURL}

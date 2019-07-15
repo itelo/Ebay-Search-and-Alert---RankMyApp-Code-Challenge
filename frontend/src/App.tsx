@@ -199,17 +199,11 @@ const useStyles = makeStyles((theme: Theme) => {
 const App: React.FC = () => {
   const classes = useStyles();
   const api = React.useContext(ApiContext);
-  React.useEffect(() => {
-    console.log(api.data);
-    // fetch("/api/list")
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     console.log({ res });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-  }, [api.data]);
+
+  const handleClickBoardItem = useCallback(url => {
+    const win = window.open(url, "_blank");
+    if (win) win.focus();
+  }, []);
 
   const handleRequestClose = useCallback(
     _id => {
@@ -234,6 +228,7 @@ const App: React.FC = () => {
             {api.data.map((item, key) => (
               <Grid item key={key}>
                 <Board
+                  onClickBoardItem={handleClickBoardItem}
                   onRequestClose={handleRequestClose}
                   _id={item._id}
                   email={item.email}
