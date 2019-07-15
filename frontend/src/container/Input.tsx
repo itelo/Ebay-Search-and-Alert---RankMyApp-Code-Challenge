@@ -62,35 +62,35 @@ type IntervalValues = "2" | "10" | "30";
 
 export default function CustomizedInputBase() {
   const classes = useStyles();
+  const [email, setEmail] = React.useState("");
+  const [searchPhrase, setSearchPhrase] = React.useState("");
 
   const [interval, setInterval] = React.useState("10" as IntervalValues);
+
   const api = React.useContext(ApiContext);
 
   const tryRegister = async () => {
-    api.action
-      .create({
-        interval,
-        searchPhrase: "nintendo switch",
-        email: "itelofilho@gmail.com"
-      })
-      .then(a => {
-        console.log(a);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    api.action.create({
+      interval,
+      searchPhrase,
+      email
+    });
   };
 
   return (
     <div className={classes.row}>
       <Paper className={classes.root}>
         <InputBase
+          value={email}
+          onChange={e => setEmail(e.target.value)}
           className={classes.input}
           placeholder="Email"
           inputProps={{ "aria-label": "email", type: "email" }}
         />
         <div className={classes.row}>
           <InputBase
+            value={searchPhrase}
+            onChange={e => setSearchPhrase(e.target.value)}
             className={classes.input}
             placeholder="Search Phrase"
             inputProps={{ "aria-label": "Search Phrase" }}
