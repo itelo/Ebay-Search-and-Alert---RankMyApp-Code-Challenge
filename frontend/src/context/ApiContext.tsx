@@ -4,6 +4,7 @@ export const ApiContext = React.createContext({} as {
   data: ProviderData[];
   action: {
     create: (body: CreateBody) => Promise<Response>;
+    cancel: (id: string) => void;
   };
 });
 
@@ -52,7 +53,7 @@ export const ApiProvider: React.FC = props => {
     }
   };
 
-  const create = async (body: CreateBody) => {
+  const create = (body: CreateBody) => {
     return new Promise<Response>((resolve, reject) => {
       fetch("/api/register", {
         method: "POST",
@@ -66,6 +67,25 @@ export const ApiProvider: React.FC = props => {
           if (res.success) {
             setData([...data, { ...res.data, items: [], loading: true }]);
             setArrIds([...arrIds, res.data._id]);
+          }
+          resolve(res);
+        })
+        .catch(reject);
+    });
+  };
+
+  const cancel = (id: string) => {
+    return new Promise<Response>((resolve, reject) => {
+      fetch(`/api/cancel/${id}`, {
+        method: "DELETE"
+      })
+        .then(res => res.json())
+        .then((res: Response) => {
+          if (res.success) {
+            const index = data.findIndex(({ _id }) => _id === id);
+            const startArr = data.slice(0, index);
+            const endArr = data.slice(index + 1, data.length);
+            setData([...startArr, ...endArr]);
           }
           resolve(res);
         })
@@ -109,7 +129,8 @@ export const ApiProvider: React.FC = props => {
   const values = {
     data,
     action: {
-      create
+      create,
+      cancel
     }
   };
   return (
