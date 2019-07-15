@@ -4,7 +4,8 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import { Button } from "@material-ui/core";
-import MenuButton from "./MenuButton/MenuButton";
+import MenuButton from "../components/MenuButton/MenuButton";
+import { ApiContext } from "../context/ApiContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,21 +49,37 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const messages = {
-  2: "2 min",
-  10: "10 min",
-  30: "30 min"
+  "2": "2 min",
+  "10": "10 min",
+  "30": "30 min"
 } as {
-  2: string;
-  10: string;
-  30: string;
+  "2": string;
+  "10": string;
+  "30": string;
 };
 
-type IntervalValues = 2 | 10 | 30;
+type IntervalValues = "2" | "10" | "30";
 
 export default function CustomizedInputBase() {
   const classes = useStyles();
 
-  const [interval, setInterval] = React.useState(10 as IntervalValues);
+  const [interval, setInterval] = React.useState("10" as IntervalValues);
+  const api = React.useContext(ApiContext);
+
+  const tryRegister = async () => {
+    api.action
+      .create({
+        interval,
+        searchPhrase: "nintendo switch",
+        email: "itelofilho@gmail.com"
+      })
+      .then(a => {
+        console.log(a);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className={classes.row}>
@@ -86,15 +103,15 @@ export default function CustomizedInputBase() {
               data={[
                 {
                   label: "2 minutos",
-                  value: 2
+                  value: "2"
                 },
                 {
                   label: "10 minutos",
-                  value: 10
+                  value: "10"
                 },
                 {
                   label: "30 minutos",
-                  value: 30
+                  value: "30"
                 }
               ]}
             />
@@ -102,7 +119,7 @@ export default function CustomizedInputBase() {
         </div>
       </Paper>
       <div className={classes.space} />
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" onClick={tryRegister}>
         Registrar
       </Button>
     </div>
