@@ -48,7 +48,7 @@ const BoardItem: React.FC<BoardItemProps> = props => {
               {props.title}
             </Typography>
             <Typography variant="h6" component="p">
-              R$ {props.price}
+              US ${props.price}
             </Typography>
           </Grid>
         </Grid>
