@@ -50,12 +50,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type BoardProps = {
+  _id: string;
   email: string;
   sp: string;
   time: string;
-  onRequestRefresh?(): void;
-  onRequestClose?(): void;
-  onClickBoardItem?: (_id: string) => () => void;
+  onRequestRefresh?: (_id: string) => void;
+  onRequestClose?: (_id: string) => void;
+  onClickBoardItem?: (_id: string) => void;
   data: {
     _id: string;
     imageURL?: string;
@@ -66,6 +67,8 @@ type BoardProps = {
 
 const Board: React.FC<BoardProps> = props => {
   const classes = useStyles();
+
+  console.log(props);
 
   return (
     <div className={classes.root}>
@@ -81,7 +84,11 @@ const Board: React.FC<BoardProps> = props => {
               <Grid container direction="row">
                 <CloseIcon
                   className={classes.iconClose}
-                  onClick={props.onRequestClose}
+                  onClick={() => {
+                    if (props.onRequestClose) {
+                      props.onRequestClose(props._id);
+                    }
+                  }}
                 />
               </Grid>
             </Grid>
@@ -105,7 +112,13 @@ const Board: React.FC<BoardProps> = props => {
                 <Typography variant="body2" component="p">
                   {props.time}
                 </Typography>
-                <RefreshIcon onClick={props.onRequestRefresh} />
+                <RefreshIcon
+                  onClick={() => {
+                    if (props.onRequestRefresh) {
+                      props.onRequestRefresh(props._id);
+                    }
+                  }}
+                />
               </Grid>
             </Grid>
           </Grid>

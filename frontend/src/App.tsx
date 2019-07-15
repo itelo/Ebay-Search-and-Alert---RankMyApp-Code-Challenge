@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./App.css";
 import Input from "./container/Input";
 import Board from "./components/Board";
@@ -211,6 +211,13 @@ const App: React.FC = () => {
     //   });
   }, [api.data]);
 
+  const handleRequestClose = useCallback(
+    _id => {
+      api.action.cancel(_id);
+    },
+    [api.data]
+  );
+
   return (
     <div className="App">
       <Grid container justify="center" alignItems="center" direction="column">
@@ -227,6 +234,8 @@ const App: React.FC = () => {
             {api.data.map((item, key) => (
               <Grid item key={key}>
                 <Board
+                  onRequestClose={handleRequestClose}
+                  _id={item._id}
                   email={item.email}
                   sp={item.searchPhrase}
                   time={item.interval}
