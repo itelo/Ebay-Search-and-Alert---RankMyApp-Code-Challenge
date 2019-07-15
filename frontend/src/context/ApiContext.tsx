@@ -105,7 +105,6 @@ export const ApiProvider: React.FC = props => {
         fetch(`/api/query?searchPhrase=${item.searchPhrase}`)
           .then(r => r.json())
           .then(res => {
-            console.log(res);
             const newData = data.slice();
             item.loading = false;
 

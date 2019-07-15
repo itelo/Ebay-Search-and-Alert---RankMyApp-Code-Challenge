@@ -69,8 +69,6 @@ type BoardProps = {
 const Board: React.FC<BoardProps> = props => {
   const classes = useStyles();
 
-  console.log(props);
-
   return (
     <div className={classes.root}>
       <Paper>

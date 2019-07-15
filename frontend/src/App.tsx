@@ -37,12 +37,9 @@ const App: React.FC = () => {
     if (win) win.focus();
   }, []);
 
-  const handleRequestClose = useCallback(
-    _id => {
-      api.action.cancel(_id);
-    },
-    [api.data]
-  );
+  const handleRequestClose = useCallback(_id => {
+    api.action.cancel(_id);
+  }, []);
 
   return (
     <div className="App">
