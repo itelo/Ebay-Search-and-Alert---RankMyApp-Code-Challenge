@@ -1,31 +1,43 @@
 import React from "react";
 
 export const ApiContext = React.createContext({} as {
-  data: DataType[];
+  data: ProviderData[];
   action: {
-    create: (body: CreateBody) => Promise<void>;
+    create: (body: CreateBody) => Promise<Response>;
   };
 });
 
-type DataType = {
+interface ProviderData {
   email: string;
   interval: string;
-  items: any[];
   loading: boolean;
-  shouldTryLoad: boolean;
   searchPhrase: string;
   _id: string;
+  items: any[];
+}
+
+interface ResponseData {
+  email: string;
+  interval: string;
+  loading: boolean;
+  searchPhrase: string;
+  _id: string;
+}
+
+type Response = {
+  success: boolean;
+  data: ResponseData;
 };
 
 type CreateBody = { email: string; interval: string; searchPhrase: string };
 
 export const ApiProvider: React.FC = props => {
-  const [data, setData] = React.useState([] as DataType[]);
+  const [data, setData] = React.useState([] as ProviderData[]);
   const [arrIds, setArrIds] = React.useState([] as string[]);
-  // PUT EVERYTHING IN ARRAY ID;
+
   const init = async () => {
     const r = await fetch("/api/list");
-    const res = await r.json();
+    const res = (await r.json()) as Response;
     if (res.success) {
       const arr = [] as string[];
 
@@ -41,19 +53,24 @@ export const ApiProvider: React.FC = props => {
   };
 
   const create = async (body: CreateBody) => {
-    fetch("/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    })
-      .then(res => res.json())
-      .then(res => {
-        // @ts-ignore
-        setData([...data, { ...res.data, items: [], loading: true }]);
-        setArrIds([...arrIds, res.data._id]);
-      });
+    return new Promise<Response>((resolve, reject) => {
+      fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      })
+        .then(res => res.json())
+        .then((res: Response) => {
+          if (res.success) {
+            setData([...data, { ...res.data, items: [], loading: true }]);
+            setArrIds([...arrIds, res.data._id]);
+          }
+          resolve(res);
+        })
+        .catch(reject);
+    });
   };
 
   React.useEffect(() => {
@@ -61,10 +78,8 @@ export const ApiProvider: React.FC = props => {
       return;
     }
     for (let id of arrIds) {
-      console.log(id);
-      console.log(data);
       const index = data.findIndex(({ _id }) => _id === id);
-      console.log(index);
+
       if (index >= 0) {
         let item = data[index];
         fetch(`/api/query?searchPhrase=${item.searchPhrase}`)
