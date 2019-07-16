@@ -26,10 +26,16 @@ const BoardItem: React.FC<BoardItemProps> = props => {
   const classes = useStyles();
 
   return (
-    <Grid container direction="row" onClick={props.onClick}>
+    <Grid
+      container
+      direction="row"
+      onClick={props.onClick}
+      data-testid="button-tag"
+    >
       {props.imageURL && (
         <Grid item>
           <img
+            data-testid="image-tag"
             alt="IMAGE_OF_PRODUCT"
             src={props.imageURL}
             className={classes.image}
@@ -44,10 +50,10 @@ const BoardItem: React.FC<BoardItemProps> = props => {
           alignContent="flex-end"
         >
           <Grid item xs>
-            <Typography variant="body1" component="p">
+            <Typography variant="body1" component="p" data-testid="title-tag">
               {props.title}
             </Typography>
-            <Typography variant="h6" component="p">
+            <Typography variant="h6" component="p" data-testid="price-tag">
               US ${props.price}
             </Typography>
           </Grid>
