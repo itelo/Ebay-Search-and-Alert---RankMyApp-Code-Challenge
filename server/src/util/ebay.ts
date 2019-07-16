@@ -1,12 +1,3 @@
-// import iBay from "ebay-node-api";
-
-// const ebay = new iBay({
-//   clientID: "IteloFil-rankmyap-SBX-8d8c7c828-9223860c",
-//   limit: 3,
-//   filter: "priceCurrency:BRL,price:[50]",
-//   env: "SANDBOX" // optional default = 'PRODUCTION'
-// });
-
 import fetch from "node-fetch";
 
 function findItemsByKeywords(keyword: string) {
@@ -29,7 +20,7 @@ export const findItemsBySearchPhrase = (searchPhrase: string) => {
   return new Promise<Item[]>((resolve, reject) => {
     findItemsByKeywords(searchPhrase).then(
       (data: any) => {
-        console.log(data.findItemsByKeywordsResponse[0].searchResult[0]);
+        // console.log(data.findItemsByKeywordsResponse[0].searchResult[0]);
         let result = [] as Item[];
         if (
           data &&
@@ -53,8 +44,6 @@ export const findItemsBySearchPhrase = (searchPhrase: string) => {
               };
             }
           ) as Item[];
-
-          console.log(result);
         }
 
         resolve(result);

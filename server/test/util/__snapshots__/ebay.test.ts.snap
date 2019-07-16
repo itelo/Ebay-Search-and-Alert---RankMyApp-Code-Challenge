@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`findItemsBySearchPhrase should return result for 'iphone' 1`] = `
+Array [
+  Object {
+    "_id": "110421025574",
+    "imageURL": undefined,
+    "itemURL": "http://cgi.sandbox.ebay.com/iPhone-Case-/110421025574",
+    "price": "1.0",
+    "title": "iPhone Case",
+  },
+  Object {
+    "_id": "110415569962",
+    "imageURL": "http://thumbs3.sandbox.ebaystatic.com/m/mu9EzEB3ehEMpsoBeU-HVIA/140.jpg",
+    "itemURL": "http://cgi.sandbox.ebay.com/Apple-IPhone-X-64GB-Factory-Unlocked-4G-LTE-IOS-WiFi-12MP-Camera-Smartphone-/110415569962",
+    "price": "593.95",
+    "title": "Apple IPhone X 64GB \\"Factory Unlocked\\" 4G LTE IOS WiFi 12MP Camera Smartphone",
+  },
+  Object {
+    "_id": "110418362389",
+    "imageURL": "http://thumbs2.sandbox.ebaystatic.com/m/mHBltWTgpUAzBRdOnWiZzfg/140.jpg",
+    "itemURL": "http://cgi.sandbox.ebay.com/Apple-iPhone-SE-16GB-64GB-Unlocked-Various-Colours-Model-A1723-/110418362389",
+    "price": "74.99",
+    "title": "Apple iPhone SE 16GB 64GB Unlocked, Various Colours Model A1723",
+  },
+]
+`;
+
+exports[`findItemsBySearchPhrase should return result for 'pirulito' 1`] = `Array []`;
+
+exports[`findItemsBySearchPhrase should return result for empty string 1`] = `Array []`;

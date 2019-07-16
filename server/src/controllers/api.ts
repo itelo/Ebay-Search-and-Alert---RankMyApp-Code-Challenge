@@ -150,26 +150,28 @@ agenda.define(
   { priority: "high", concurrency: 10 },
   async (job, done) => {
     const { to, searchPhrase } = job.attrs.data;
-    try {
-      const data = await findItemsBySearchPhrase(
-        searchPhrase.replace(/ /g, "+")
-      );
-      const msg = {
-        to,
-        from: "itelofilho@gmail.com",
-        subject: "Ebay Promotions",
-        text: `
+    if (process.env.NODE_ENV !== "test") {
+      try {
+        const data = await findItemsBySearchPhrase(
+          searchPhrase.replace(/ /g, "+")
+        );
+        const msg = {
+          to,
+          from: "itelofilho@gmail.com",
+          subject: "Ebay Promotions",
+          text: `
         <table border="1" cellpadding="0" cellspacing="0" width="100%">
         ${data.map(uglyEbayItem)}</table>
         `,
-        html: `
+          html: `
         <table border="1" cellpadding="0" cellspacing="0" width="100%">
         ${data.map(uglyEbayItem)}</table>
         `
-      };
-      sgMail.send(msg);
-    } catch (err) {
-      console.log(err);
+        };
+        sgMail.send(msg);
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     done();

@@ -2,7 +2,7 @@ type Item = {
   price: string;
   itemURL: string;
   title: string;
-  imageURL: string;
+  imageURL?: string;
 };
 
 export const uglyEbayItem = (item: Item) => {

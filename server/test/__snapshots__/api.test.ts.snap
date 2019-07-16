@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GET /api get /list should return 200 success true empty array 1`] = `
+Object {
+  "data": Array [],
+  "success": true,
+}
+`;
+
+exports[`GET /api get /list should return 200 success true with 1 elem in data 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "email": "someemail@gmail.com",
+      "interval": "10 minutes",
+      "searchPhrase": "pokemon",
+    },
+  ],
+  "success": true,
+}
+`;
+
+exports[`GET /api post /register should return 200 success false 1`] = `
+Object {
+  "data": Object {
+    "message": "search phrase already registered",
+  },
+  "success": false,
+}
+`;
+
+exports[`GET /api post /register should return 200 success false due to wrong interval 1`] = `
+Object {
+  "data": Object {
+    "message": "interval not valid",
+  },
+  "success": false,
+}
+`;
+
+exports[`GET /api post /register should return 200 success true 1`] = `
+Object {
+  "data": Object {
+    "email": "someemail@gmail.com",
+    "interval": "10 minutes",
+    "searchPhrase": "pokemon",
+  },
+  "success": true,
+}
+`;
+
+exports[`GET /api post /register should return 200 success true 2`] = `
+Object {
+  "data": Object {
+    "email": "someemail2@gmail.com",
+    "interval": "10 minutes",
+    "searchPhrase": "pokemon",
+  },
+  "success": true,
+}
+`;
