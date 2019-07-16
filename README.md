@@ -57,6 +57,10 @@ Para executar os testes é preciso fazer o mesmo processo do de desenvovilmento,
 
 #### frontend
 
+![frontend-teste](https://user-images.githubusercontent.com/11433064/61335539-3724b980-a804-11e9-934b-4178ce5856a7.png)
+
+obs: infelizmente só fiz teste de 2 componentes :/
+
 #### backend
 
 ![backend-tests](https://user-images.githubusercontent.com/11433064/61327308-04bc9180-a7ef-11e9-9d8c-b02e742dcb9e.png)
