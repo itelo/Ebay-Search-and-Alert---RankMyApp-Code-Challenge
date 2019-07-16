@@ -32,13 +32,6 @@ const CustomizedInputBase: React.FC<CustomizedInputBaseProps> = props => {
       if (intervalDesired) {
         props.onChange(intervalDesired);
       }
-      if (
-        anchorRef.current &&
-        anchorRef.current.contains(event.target as HTMLElement)
-      ) {
-        // @ts-ignore
-        return;
-      }
 
       setOpen(false);
     };
@@ -51,6 +44,7 @@ const CustomizedInputBase: React.FC<CustomizedInputBaseProps> = props => {
         aria-controls="menu-list-grow"
         aria-haspopup="true"
         onClick={handleToggle}
+        data-testid="button-message-tag"
       >
         {props.message}
       </Button>
@@ -70,10 +64,14 @@ const CustomizedInputBase: React.FC<CustomizedInputBaseProps> = props => {
             }}
           >
             <Paper id="menu-list-grow">
-              <ClickAwayListener onClickAway={handleClose()}>
+              <ClickAwayListener
+                onClickAway={handleClose()}
+                data-testid="click-away"
+              >
                 <MenuList>
                   {props.data.map(item => (
                     <MenuItem
+                      data-testid={`menu-item-tag-${item.value}`}
                       key={item.value}
                       onClick={handleClose(item.value)}
                     >
