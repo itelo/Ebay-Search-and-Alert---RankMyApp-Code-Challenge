@@ -2,6 +2,9 @@
 
 Para realizar este projeto eu utilizei o React, Mongo, Node e Typescript. Para agilizar o desevolvimento escolhi usar o [create-react-app](https://github.com/facebook/create-react-app) e [TypeScript-Node-Starter](https://github.com/microsoft/TypeScript-Node-Starter), para o frontend e backend respectivamente.
 
+![front-image](https://user-images.githubusercontent.com/11433064/61327294-fc645680-a7ee-11e9-9d05-9cebaab67849.png)
+![email-image](https://user-images.githubusercontent.com/11433064/61327280-efdffe00-a7ee-11e9-91b2-1dcd7c1a39ef.png)
+
 ## API
 
 | route                    | verb   | description                      |
@@ -48,8 +51,12 @@ Utilizei a lib para me ajudar a contruir a interface em React.
 
 ## tests
 
-Escrevi os testes utilizando o jest
+Escrevi os testes utilizando o jest.
+
+Para executar os testes é preciso fazer o mesmo processo do de desenvovilmento, so que dessa vez trocando o comando `start` por `test`.
 
 #### frontend
 
 #### backend
+
+![backend-tests](https://user-images.githubusercontent.com/11433064/61327308-04bc9180-a7ef-11e9-9d8c-b02e742dcb9e.png)
