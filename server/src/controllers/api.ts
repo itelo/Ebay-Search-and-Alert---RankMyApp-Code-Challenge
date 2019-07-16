@@ -5,6 +5,10 @@ import { ObjectID } from "mongodb";
 import agenda from "../agenda";
 import Agenda from "agenda";
 import { findItemsBySearchPhrase } from "../util/ebay";
+import sgMail from "@sendgrid/mail";
+import { uglyEbayItem } from "../util/uglyemail";
+
+sgMail.setApiKey(process.env.SEND_GRID);
 
 const intervals = {
   "2": "2 minutes",
@@ -23,7 +27,8 @@ export const query = async (req: Request, res: Response) => {
 
   try {
     const data = await findItemsBySearchPhrase(searchPhrase.replace(/ /g, "+"));
-    res.json({
+
+    return res.json({
       success: true,
       data
     });
@@ -39,6 +44,23 @@ export const register = async (req: Request, res: Response) => {
   const { searchPhrase, interval, email } = req.body;
 
   try {
+    const jobs = await agenda.jobs<{
+      searchPhrase: string;
+    }>({
+      name: "send email report",
+      "data.to": email,
+      "data.searchPhrase": searchPhrase
+    });
+
+    if (jobs.length > 0) {
+      return res.json({
+        success: false,
+        data: {
+          message: "search phrase already registered"
+        }
+      });
+    }
+
     const weeklyReport = agenda.create("send email report", {
       to: email,
       searchPhrase
@@ -126,31 +148,30 @@ const mapJobToResponse = (
 agenda.define(
   "send email report",
   { priority: "high", concurrency: 10 },
-  (job, done) => {
-    const { to } = job.attrs.data;
-    console.log(
-      JSON.stringify(
-        {
-          to,
-          from: "example@example.com",
-          subject: "Email Report",
-          body: "..."
-        },
-        undefined,
-        2
-      )
-    );
+  async (job, done) => {
+    const { to, searchPhrase } = job.attrs.data;
+    try {
+      const data = await findItemsBySearchPhrase(
+        searchPhrase.replace(/ /g, "+")
+      );
+      const msg = {
+        to,
+        from: "itelofilho@gmail.com",
+        subject: "Ebay Promotions",
+        text: `
+        <table border="1" cellpadding="0" cellspacing="0" width="100%">
+        ${data.map(uglyEbayItem)}</table>
+        `,
+        html: `
+        <table border="1" cellpadding="0" cellspacing="0" width="100%">
+        ${data.map(uglyEbayItem)}</table>
+        `
+      };
+      sgMail.send(msg);
+    } catch (err) {
+      console.log(err);
+    }
 
     done();
-
-    // emailClient.send(
-    //   {
-    //     to,
-    //     from: "example@example.com",
-    //     subject: "Email Report",
-    //     body: "..."
-    //   },
-    //   done
-    // );
   }
 );
